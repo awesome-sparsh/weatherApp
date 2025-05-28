@@ -3,6 +3,8 @@ import json
 import urllib.request
 import urllib.error
 import socket
+from datetime import datetime, timedelta
+
 
 def index(request):
     if request.method=='POST':
@@ -22,9 +24,9 @@ def index(request):
                 "humidity" :str(jsonData['main']['humidity']),
                 "visibility" :str(jsonData['visibility']),
                 "wind" :str(jsonData['wind']['speed']),
-                "sunrise" :str(jsonData['sys']['sunrise']),
-                "sunset" :str(jsonData['sys']['sunset']),
-                "timezone" :str(jsonData['timezone']),
+                "sunrise": format_unix_to_ist(jsonData['sys']['sunrise'], jsonData['timezone']),
+                "sunset": format_unix_to_ist(jsonData['sys']['sunset'], jsonData['timezone']),
+                "timezone": f"UTC{jsonData['timezone'] // 3600:+d}:{abs(jsonData['timezone'] % 3600) // 60:02d}",
                 "status" :str("success")
             }
         except urllib.error.URLError as e:
@@ -47,3 +49,7 @@ def index(request):
     else:
         weather_data=''
     return render(request, 'index.html', {'weather_data': weather_data})
+
+def format_unix_to_ist(unix_time, timezone_offset_seconds):
+    ist_time = datetime.utcfromtimestamp(unix_time) + timedelta(seconds=timezone_offset_seconds)
+    return ist_time.strftime("%I:%M %p")  # Example: 05:45 AM

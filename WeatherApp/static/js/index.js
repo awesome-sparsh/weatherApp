@@ -1,3 +1,16 @@
+$(document).ready(function () {
+    console.log("heloooo");
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString(undefined, {
+        weekday: 'long',     
+        year: 'numeric',     
+        month: 'long',       
+        day: 'numeric'       
+    });
+
+    $('#current-date').text(formattedDate);
+});
+
 function validateAndSubmit() {
     const location = $('#location').val().trim();
         if (location === '') {
