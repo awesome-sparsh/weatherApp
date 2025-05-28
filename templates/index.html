@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Detector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS & Local CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'images/weather_favicon.png' %}">
+
+  <!-- JQuery CDN & Local JS -->
+  <script src="{% static 'js/index.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="text-white">
+  <!-- Header -->
+  <nav class="bg-gray-900 bg-opacity-80 shadow-lg py-6 mb-10">
+    <h1 class="text-center text-3xl font-bold tracking-wider text-cyan-400">🌤️ Weather Detector</h1>
+  </nav>
+
+  <!-- Search Form -->
+  <div class="flex justify-center mb-10 relative">
+    <form action="" id="weather-form" method="post" class="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 shadow-lg">
+      {% csrf_token %}
+      <div class="relative">
+        <input type="text" id="location" name="location" placeholder="Search for a location..."
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" autocomplete="off">
+        <ul id="autocomplete-results" class="autocomplete-results list-none hidden"></ul>
+        <span id="location-error" class="text-red-400 text-sm mt-1 block hidden"></span>
+      </div>
+      <button type="button" onclick="validateAndSubmit()"
+        class="w-full mt-4 bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg shadow">
+        🔍 Get Weather
+      </button>
+    </form>
+  </div>
+
+  <!-- Weather Card -->
+  {% if weather_data.status == 'success' %}
+  <div class="flex justify-center">
+    <div class="w-full max-w-xl bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-8 shadow-2xl space-y-4 text-center">
+      <h2 class="text-4xl font-semibold text-cyan-300">{{ weather_data.location }}</h2>
+      <p class="text-sm text-gray-300">{{ weather_data.coordinates }}</p>
+      <div class="grid grid-cols-2 gap-4 mt-4 text-lg">
+        <div>🌡️ Temperature: <span class="text-cyan-300">{{ weather_data.temperature }}°C</span></div>
+        <div>🌡️ Feels Like: <span class="text-cyan-300">{{ weather_data.feels_like_temperature }}°C</span></div>
+        <div>📉 Min Temp: <span class="text-cyan-300">{{ weather_data.minimum_temperature }}°C</span></div>
+        <div>📈 Max Temp: <span class="text-cyan-300">{{ weather_data.maximum_temperature }}°C</span></div>
+        <div>💧 Humidity: <span class="text-cyan-300">{{ weather_data.humidity }}%</span></div>
+        <div>🌫️ Visibility: <span class="text-cyan-300">{{ weather_data.visibility }} m</span></div>
+        <div>🌬️ Wind Speed: <span class="text-cyan-300">{{ weather_data.wind }} m/s</span></div>
+        <div>⏰ Timezone: <span class="text-cyan-300">{{ weather_data.timezone }}</span></div>
+        <div>🌅 Sunrise: <span class="text-cyan-300">{{ weather_data.sunrise }}</span></div>
+        <div>🌇 Sunset: <span class="text-cyan-300">{{ weather_data.sunset }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  {% elif weather_data.status == 'location_fail' %}
+    <div class="flex justify-center">
+      <div class="w-full max-w-xl bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-8 shadow-2xl space-y-4 text-center">
+        <h2 class="text-4xl font-semibold text-cyan-300">ERROR 404, Couldnt Find Location {{ weather_data.location }}, if you are providng a city and a state please add comas between the two.</h2>
+      </div>
+    </div>
+
+  {% elif weather_data.status == 'server_fail' %}
+    <div class="flex justify-center">
+      <div class="w-full max-w-xl bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-8 shadow-2xl space-y-4 text-center">
+        <h2 class="text-4xl font-semibold text-cyan-300">ERROR 500, A server-side error occurred, please try again</h2>
+      </div>
+    </div>  
+  {% endif %}
+</body>
+</html>
