@@ -1,6 +1,7 @@
 Developed by Sparsh Sethi
     https://www.sparshsethi.com
     https://github.com/awesome-sparsh/
+    APP can be found at https://weatherapp-3mig.onrender.com/
 
 🌤️ Weather Detector – Django Web App
     A beautiful and functional weather detection web application built using Django and styled with Tailwind CSS. Users can search for a location and receive real-time weather data using the OpenWeatherMap API.
