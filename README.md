@@ -27,30 +27,6 @@ Developed by Sparsh Sethi
     OpenWeatherMap API	Weather data source
     jQuery	Client-side form validation
 
-📁 Project Structure
-    WeatherApp/
-    ├── WeatherApp/
-    │   ├── settings.py          # Project settings (Django)
-    │   ├── urls.py              # Root URL configuration
-    │   └── wsgi.py              # WSGI app for deployment
-    │
-    ├── weatherDetector/
-    │   ├── views.py             # Logic for weather fetching
-    │   ├── urls.py              # App-specific URL routing
-    │   └── templates/
-    │       └── index.html       # Main HTML template with Tailwind
-    │
-    ├── static/
-    │   ├── css/
-    │   │   └── style.css        # Gradient background, autocomplete styling
-    │   ├── js/
-    │   │   └── index.js         # jQuery form validation
-    │   └── images/
-    │       └── weather_favicon.png
-    │
-    ├── db.sqlite3               # SQLite database (unused in this app)
-    └── manage.py                # Django CLI utility
-
 ⚙️ How It Works
     🔁 Workflow
         User Input:
